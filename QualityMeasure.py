@@ -13,7 +13,7 @@ class QualityMeasure:
             self.falsePositives += 1
 
     def computeMeasures(self):
-        precision = self.truePositives/(self.trueNegatives + self.truePositives)
+        precision = self.truePositives/(self.falsePositives + self.truePositives)
         print("Precision: " + str(precision))
 
         self.falseNegatives = 72125 - self.truePositives
