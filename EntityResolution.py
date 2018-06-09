@@ -10,11 +10,15 @@ class EntityResolver:
         publication1TitlesList = list(map(lambda x: x.lower(), publication1TitlesList))
         publication1FullTitleString = " ".join(publication1TitlesList)
         publication1FullTitleString.lower()
+        publication1FullTitleString = publication1FullTitleString.replace(',', "")
+        publication1FullTitleString = publication1FullTitleString.replace('.', "")
 
         publication2TitlesList = list(map(lambda x: x.text, publication2.findall("title")))
         publication2TitlesList = list(map(lambda x: x.lower(), publication2TitlesList))
         publication2FullTitleString = " ".join(publication2TitlesList)
         publication2FullTitleString.lower()
+        publication2FullTitleString = publication2FullTitleString.replace('.', "")
+        publication2FullTitleString = publication2FullTitleString.replace(',', "")
 
         if publication1FullTitleString == publication2FullTitleString:
             return True
