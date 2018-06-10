@@ -26,11 +26,10 @@ class EntityResolver:
         return False
 
     def resolve(self, publications):
-        matches = 0
         for i in range(0, len(publications)):
             for j in range(i + 1, len(publications)):
                 if self.match(publications[i], publications[j]):
-                    #print("Deu match entre entities " + str(publications[i]) + str(publications[j]))
+                    #print("We have a match between entities " + str(publications[i]) + str(publications[j]))
                     self.qualityMeasure.computeMatch(publications[i], publications[j])
 
 

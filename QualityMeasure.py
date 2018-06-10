@@ -1,3 +1,4 @@
+CORRECT_NUMBER_OF_PAIRS = 72125
 
 
 class QualityMeasure:
@@ -16,7 +17,7 @@ class QualityMeasure:
         precision = self.truePositives/(self.falsePositives + self.truePositives)
         print("Precision: " + str(precision))
 
-        self.falseNegatives = 72125 - self.truePositives
+        self.falseNegatives = CORRECT_NUMBER_OF_PAIRS - self.truePositives
         recall = self.truePositives / (self.falseNegatives + self.truePositives)
         print("Recall: " + str(recall))
 
