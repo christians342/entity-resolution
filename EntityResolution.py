@@ -1,3 +1,4 @@
+import time
 import xml.etree.ElementTree as ET
 from QualityMeasure import QualityMeasure
 
@@ -38,6 +39,11 @@ if __name__ == '__main__':
     tree = ET.parse('cora-all-id.xml')
     root = tree.getroot()
 
+    startTime = time.time()
+
     entityResolver = EntityResolver()
     entityResolver.resolve(root)
+
+    print("Entity Resolver execution time: " + str(time.time() - startTime) + " seconds\n")
+
     entityResolver.qualityMeasure.computeMeasures()
