@@ -39,7 +39,8 @@ class EntityResolver:
             for j in range(i + 1, len(publications)):
                 # check whether the comparison was already made before
                 if str(publications[i]) + str(publications[j]) in self.matches:
-                    print("Match found in previously found matches.")
+                    #print("Match found in previously found matches.")
+                    pass
                 elif self.match(publications[i], publications[j]):
                     #print("We have a match between entities " + str(publications[i]) + str(publications[j]))
                     self.qualityMeasure.computeMatch(publications[i], publications[j])
@@ -48,9 +49,17 @@ class EntityResolver:
         groups = {}
         for publication in publications:
             for word in list(map(lambda x: x.text, publication.findall("title"))):
+                word = word.replace(":", "")
+                word = word.replace(".", "")
+                word = word.replace(" ", "")
+                word = word.replace(",", "")
+                word = word.replace("\"", "")
+                word = word.lower()
                 if word not in groups:
                     groups[word] = []
+                    print(word)
                 groups[word].append(publication)
+
         return groups.values()
 
 
