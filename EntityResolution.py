@@ -64,8 +64,8 @@ class EntityResolver:
                 if word not in groups:
                     groups[word] = []
                 groups[word].append(publication)
-
-            if len(publicationTitles) < 1:
+            print(len(publicationTitles))
+            if len(publicationTitles) == 0:
                 groups["no-title-found"].append(publication)
 
         groups["a"] = []
@@ -79,7 +79,7 @@ class EntityResolver:
         groups["learning"] = []
 
         for group in groups:
-            if len(groups[group]) > 100:
+            if len(groups[group]):
                 print(str(group) + "[" + str(len(groups[group])) + " items]")
 
         return groups.values()
