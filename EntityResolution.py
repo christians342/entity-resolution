@@ -54,11 +54,28 @@ class EntityResolver:
                 word = word.replace(" ", "")
                 word = word.replace(",", "")
                 word = word.replace("\"", "")
+                word = word.replace("-", "")
+                word = word.replace(";", "")
+                word = word.replace("'", "")
+                word = word.replace("`", "")
                 word = word.lower()
                 if word not in groups:
                     groups[word] = []
-                    print(word)
                 groups[word].append(publication)
+
+        groups["a"] = []
+        groups["as"] = []
+        groups["the"] = []
+        groups["for"] = []
+        groups["an"] = []
+        groups["of"] = []
+        groups["in"] = []
+        groups["and"] = []
+        groups["learning"] = []
+
+        for group in groups:
+            if len(groups[group]) > 100:
+                print(str(group) + "[" + str(len(groups[group])) + " items]")
 
         return groups.values()
 
