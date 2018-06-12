@@ -47,8 +47,10 @@ class EntityResolver:
 
     def getGroups(self, publications):
         groups = {}
+        groups["no-title-found"] = []
         for publication in publications:
-            for word in list(map(lambda x: x.text, publication.findall("title"))):
+            publicationTitles = list(map(lambda x: x.text, publication.findall("title")))
+            for word in publicationTitles:
                 word = word.replace(":", "")
                 word = word.replace(".", "")
                 word = word.replace(" ", "")
@@ -62,6 +64,9 @@ class EntityResolver:
                 if word not in groups:
                     groups[word] = []
                 groups[word].append(publication)
+
+            if len(publicationTitles) < 1:
+                groups["no-title-found"].append(publication)
 
         groups["a"] = []
         groups["as"] = []
@@ -90,6 +95,6 @@ if __name__ == '__main__':
     entityResolver = EntityResolver(root)
     entityResolver.resolve()
 
-    print("Entity Resolver execution time: " + str(time.time() - startTime) + " seconds\n")
+    print("\nEntity Resolver execution time: " + str(time.time() - startTime) + " seconds\n")
 
     entityResolver.qualityMeasure.computeMeasures()
