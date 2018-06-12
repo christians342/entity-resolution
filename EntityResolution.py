@@ -3,10 +3,13 @@ import xml.etree.ElementTree as ET
 from QualityMeasure import QualityMeasure
 
 class EntityResolver:
-    def __init__(self):
+    def __init__(self, publications):
         self.qualityMeasure = QualityMeasure()
+        self.matches = {}
+        self.publications = publications
 
     def match(self, publication1, publication2):
+
         publication1TitlesList = list(map(lambda x: x.text, publication1.findall("title")))
         publication1TitlesList = list(map(lambda x: x.lower(), publication1TitlesList))
         publication1FullTitleString = " ".join(publication1TitlesList)
@@ -22,15 +25,33 @@ class EntityResolver:
         publication2FullTitleString = publication2FullTitleString.replace(',', "")
 
         if publication1FullTitleString == publication2FullTitleString:
+            self.matches[str(publication1)+str(publication2)] = 1
             return True
         return False
 
-    def resolve(self, publications):
+    def resolve(self):
+        groups = self.getGroups(self.publications)
+        for group in groups:
+            self.resolveGroup(group)
+
+    def resolveGroup(self, publications):
         for i in range(0, len(publications)):
             for j in range(i + 1, len(publications)):
-                if self.match(publications[i], publications[j]):
+                # check whether the comparison was already made before
+                if str(publications[i]) + str(publications[j]) in self.matches:
+                    print("Match found in previously found matches.")
+                elif self.match(publications[i], publications[j]):
                     #print("We have a match between entities " + str(publications[i]) + str(publications[j]))
                     self.qualityMeasure.computeMatch(publications[i], publications[j])
+
+    def getGroups(self, publications):
+        groups = {}
+        for publication in publications:
+            for word in list(map(lambda x: x.text, publication.findall("title"))):
+                if word not in groups:
+                    groups[word] = []
+                groups[word].append(publication)
+        return groups.values()
 
 
 if __name__ == '__main__':
@@ -40,8 +61,8 @@ if __name__ == '__main__':
 
     startTime = time.time()
 
-    entityResolver = EntityResolver()
-    entityResolver.resolve(root)
+    entityResolver = EntityResolver(root)
+    entityResolver.resolve()
 
     print("Entity Resolver execution time: " + str(time.time() - startTime) + " seconds\n")
 
