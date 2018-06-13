@@ -64,7 +64,6 @@ class EntityResolver:
                 if word not in groups:
                     groups[word] = []
                 groups[word].append(publication)
-            print(len(publicationTitles))
             if len(publicationTitles) == 0:
                 groups["no-title-found"].append(publication)
 
